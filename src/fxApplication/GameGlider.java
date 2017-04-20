@@ -3,6 +3,7 @@ package fxApplication;
 import java.util.Random;
 
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -23,8 +24,8 @@ import static fxApplication.Main.WIDTH;
 public class GameGlider extends GameObject {
 	static final double MAXSPEED = 0.5d;
 
-	public GameGlider(World world, Pane pane, Game game) {
-		super(world, pane, game);
+	public GameGlider(World world, Group root, Game game) {
+		super(world, root, game);
 		image = new Image("res/wg-icon-transparent.png");
         iView.setImage(image);
 		MVector velocity = new MVector(random.nextDouble(),random.nextDouble()).multiply(MAXSPEED);
@@ -32,7 +33,7 @@ public class GameGlider extends GameObject {
 		setModelObject(new ModelGlider(world, velocity, position, this.getRadius()/SCALE) );
 		modelObject.setGameObject(this);
 		modelObject.setMaxSpeed(MAXSPEED);
-		pane.getChildren().add(iView);
+		root.getChildren().add(iView);
 		System.out.println("Created new " + this.toString());
 		setHandlers();
 	}

@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.stage.Stage;
 import model.World;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -30,8 +31,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			GridPane root = new GridPane();
-			root.setPadding(new Insets(10.0));
+			Group root = new Group();
 
 	        Consumer<Float> updater = secondsElapsed -> world.step(secondsElapsed);
 			Runnable renderer = () -> activeGame.updatePositions();
@@ -40,7 +40,7 @@ public class Main extends Application {
 
 	        Scene scene = new Scene(root, WIDTH * SCALE, HEIGHT * SCALE);
 			activeGame = new Game();
-			activeGame.load(world, root, 1, 3);
+			activeGame.load(world, root, 1,3 );
 			activeGame.setHandlers(scene);
 
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());

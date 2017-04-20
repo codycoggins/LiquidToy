@@ -12,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import javafx.scene.Cursor;
+import javafx.scene.Group;
 
 import static fxApplication.Main.HEIGHT;
 import static fxApplication.Main.SCALE;
@@ -37,25 +38,25 @@ public class Game {
 	Dragboard db;
 	Line dragLine = new Line();
 
-    void load(World world, Pane pane, int numGliders, int numShips){
+    void load(World world, Group root, int numGliders, int numShips){
     	this.numGliders = numGliders;
     	this.numShips = numShips;
     	objects.clear();
     	this.world = world;
     	for (int i=0; i<numGliders; i++){
-    		GameObject o = addObject(new GameGlider(world,pane,this));
+    		GameObject o = addObject(new GameGlider(world,root,this));
     		o.setName("Glider"+i);
     	}
     	for (int i=0; i<numShips; i++){
-    		GameObject o = addObject(new GameShip(world,pane,this));
+    		GameObject o = addObject(new GameShip(world,root,this));
     		o.setName("Ship"+i);
     	}
     	dragLine.setFill(Color.RED);
     	dragLine.setVisible(false);
-    	pane.getChildren().add(dragLine);
+    	root.getChildren().add(dragLine);
     	System.out.println("Game Loaded: "+ this.toString());
     	System.out.println(world.toString());
-    	System.out.println("pane: "+ pane.getChildren());
+    	System.out.println("pane: "+ root.getChildren());
     }
 
     public GameObject addObject(GameObject gameObject) {
@@ -113,7 +114,7 @@ public class Game {
 		        /* data is dragged over the target */
 		        /* accept it only if it is not dragged from the same node
 		         * and if it has a string data */
-		    	System.out.println("SCENE RECEIVE DRAG OVER FROM " + event.getGestureSource());
+//		    	System.out.println("SCENE RECEIVE DRAG OVER FROM " + event.getGestureSource());
 		        if (event.getGestureSource() != scene ) {  // removed condition: && event.getDragboard().hasString()
 		            /* allow for both copying and moving, whatever user chooses */
 		            event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
@@ -123,7 +124,7 @@ public class Game {
 		            putLineTruePosition(dragLine,startPos.getX(),startPos.getY(),event.getSceneX(),event.getSceneY() );
 	            	dragLine.setFill(Color.RED);
 	            	dragLine.setVisible(true);
-	            	System.out.println("dragLine ("+ dragLine.getStartX()+","+ dragLine.getStartY()+ ","+dragLine.getEndX()+","+ dragLine.getEndY() );
+//	            	System.out.println("dragLine ("+ dragLine.getStartX()+","+ dragLine.getStartY()+ ","+dragLine.getEndX()+","+ dragLine.getEndY() );
 	            }
 
 //		        event.consume();
@@ -178,10 +179,8 @@ public class Game {
 	 */
 	protected void putLineTruePosition(Line line, double x1, double y1, double x2, double y2) {
 		MVector span = new MVector(x2-x1, y2-y1);
-		double originX = x1 + span.getX()/2;
-		double originY = y1 + span.getY()/2;
-    	line.setTranslateX(originX);
-    	line.setTranslateY(originY);
+    	line.setTranslateX(x1);
+    	line.setTranslateY(y1);
     	line.setStartX(0);
     	line.setStartY(0);
     	line.setEndX(span.getX());

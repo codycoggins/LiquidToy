@@ -7,6 +7,7 @@ import static fxApplication.Main.WIDTH;
 import java.util.Random;
 
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -32,7 +33,7 @@ public abstract class GameObject {
     protected Circle circle = null;
     final GameObject source = this; // for references in event handlers
 
-	public GameObject(World world, Pane pane, Game game)
+	public GameObject(World world, Group root, Game game)
     {
     	this.world = world;
     	this.color = Color.GRAY;
