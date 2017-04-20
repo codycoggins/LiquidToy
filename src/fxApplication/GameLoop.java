@@ -29,7 +29,7 @@ public abstract class GameLoop extends AnimationTimer
         this.fpsReporter = fpsReporter;
     }
 
-    private static final float timeStep = 0.0166f;
+    private static final float timeStep = 0.0322f;
 
     private long previousTime = 0;
     private float accumulatedTime = 0;

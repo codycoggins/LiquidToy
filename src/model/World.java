@@ -64,6 +64,8 @@ public class World {
 				if (delta.length()< (o1.radius+ o2.radius )) {
 					System.out.println("Collision!! "+ o1.name + " and " + o2.name + " distance " + delta.length());
 					collisions.put(o1, o2);
+					o1.collisionWith(o2);
+					o2.collisionWith(o1);
 				}
 			}
 		}

@@ -29,14 +29,12 @@ public class Game {
     	objects.clear();
     	this.world = world;
     	for (int i=0; i<numGliders; i++){
-    		GameObject o = addObject(new GameGlider(world));
+    		GameObject o = addObject(new GameGlider(world,pane));
     		o.setName("Glider"+i);
-    		pane.getChildren().add(o);
     	}
     	for (int i=0; i<numShips; i++){
-    		GameObject o = addObject(new GameShip(world));
+    		GameObject o = addObject(new GameShip(world,pane));
     		o.setName("Ship"+i);
-    		pane.getChildren().add(o);
     	}
     	System.out.println("Game Loaded: "+ this.toString());
     	System.out.println(world.toString());

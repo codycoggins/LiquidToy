@@ -6,24 +6,34 @@ import static fxApplication.Main.WIDTH;
 
 import java.util.Random;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 import model.ModelObject;
 import model.World;
 
-public abstract class GameObject extends Image{
+public abstract class GameObject {
     protected Random random = new Random();
     protected ModelObject modelObject = null;
     protected World world = null;
     protected Color color = null;
+    protected double radius = 0;
+    protected ImageView iView = null;
+    protected Image image = null;
 
-	public GameObject(World world)
+	public GameObject(World world, Pane pane)
     {
     	this.world = world;
     	this.color = Color.GRAY;
-        setRadius(SCALE * 0.1);
-        setFill(Color.GRAY);
+        radius = SCALE * 0.25;
+		iView = new ImageView();
+        iView.setFitWidth(50);
+        iView.setPreserveRatio(true);
+        iView.setSmooth(true);
+        iView.setCache(true);
     }
 
 	public World getWorld() {
@@ -38,7 +48,6 @@ public abstract class GameObject extends Image{
 		return random;
 	}
 
-
     public ModelObject setModelObject(ModelObject modelObject) {
 		this.modelObject = modelObject;
 		return modelObject;
@@ -50,15 +59,15 @@ public abstract class GameObject extends Image{
 
     public void updatePosition()
     {
-        setTranslateX(modelObject.getPosition().getX() * SCALE);
-        setTranslateY((modelObject.getPosition().getY()) * SCALE);
+        iView.setTranslateX(modelObject.getPosition().getX() * SCALE - radius);
+        iView.setTranslateY(modelObject.getPosition().getY() * SCALE - radius);
 //        System.out.println("updatePosition: " + getTranslateX() + ","+ getTranslateY());
     }
 
     public void interpolatePosition(float alpha)
     {
-        setTranslateX(alpha * modelObject.getPosition().getX() * SCALE + (1 - alpha) * getTranslateX());
-        setTranslateY(alpha * (modelObject.getPosition().getY()) * SCALE + (1- alpha) * getTranslateY());
+        iView.setTranslateX(alpha * (modelObject.getPosition().getX() * SCALE -radius)+ (1 - alpha) * iView.getTranslateX());
+        iView.setTranslateY(alpha * (modelObject.getPosition().getY() * SCALE - radius)+ (1- alpha) * iView.getTranslateY());
 //        System.out.println("interpolatePosition: " + getTranslateX() + ","+ getTranslateY());
     }
 
@@ -68,6 +77,33 @@ public abstract class GameObject extends Image{
     public void setName(String name){
     	modelObject.setName(name);
     }
+
+	public double getRadius() {
+		return radius;
+	}
+
+	public void setRadius(double radius) {
+		this.radius = radius;
+	}
+
+	public ImageView getiView() {
+		return iView;
+	}
+
+	public void setiView(ImageView iView) {
+		this.iView = iView;
+	}
+
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
+	}
+
+	public void collisionWith(GameObject o){
+	}
 
 	@Override
 	public String toString() {

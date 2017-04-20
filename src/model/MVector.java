@@ -23,6 +23,10 @@ public final class MVector extends java.lang.Object {
 		return y;
 	}
 
+	public MVector clone(){
+		return new MVector(x,y);
+	}
+
 	public MVector add(MVector b){
 		return new MVector(x + b.getX(),y + b.getY());
 	}

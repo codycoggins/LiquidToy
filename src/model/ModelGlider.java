@@ -1,5 +1,7 @@
 package model;
 
+import fxApplication.GameObject;
+
 public class ModelGlider extends ModelObject {
 
 	public ModelGlider(World world, MVector velocity, MVector position, double radius) {
@@ -7,18 +9,13 @@ public class ModelGlider extends ModelObject {
 		System.out.println("Created new " + this.toString());
 	}
 
+	@Override
+	public void collisionWith(ModelObject o){
+		super.collisionWith(o);
+		// getting hit pushes the glider
+		this.velocity = o.velocity;
 
-//	@Override
-//	public void interpolatePosition(float alpha) {
-//		// TODO Auto-generated method stub
-//
-//	}
-//
-//	@Override
-//	public void updatePosition() {
-//		// TODO Auto-generated method stub
-//
-//	}
+	}
 
 	@Override
 	public String toString() {

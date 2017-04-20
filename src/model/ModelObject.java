@@ -1,5 +1,7 @@
 package model;
 
+import fxApplication.GameObject;
+
 public abstract class ModelObject {
 	protected MVector position; //(meters)
 	protected MVector velocity; //(meters/second)
@@ -7,6 +9,7 @@ public abstract class ModelObject {
 	protected double radius = 0.1;
 	protected String name = "ModelObject Instance";
 	protected World world = null;
+	protected GameObject gameObject = null;
 
 	public ModelObject(World world, MVector velocity, MVector position, double radius) {
 		super();
@@ -92,6 +95,17 @@ public abstract class ModelObject {
 
 	public void setRadius(double radius) {
 		this.radius = radius;
+	}
+
+	public GameObject getGameObject() {
+		return gameObject;
+	}
+
+	public void setGameObject(GameObject gameObject) {
+		this.gameObject = gameObject;
+	}
+
+	public void collisionWith(ModelObject o){
 	}
 
 	@Override
