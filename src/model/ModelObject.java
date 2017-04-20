@@ -4,15 +4,16 @@ public abstract class ModelObject {
 	protected MVector position; //(meters)
 	protected MVector velocity; //(meters/second)
 	protected double maxSpeed = 0;
-	protected double radius = 1;
+	protected double radius = 0.1;
 	protected String name = "ModelObject Instance";
 	protected World world = null;
 
-	public ModelObject(World world, MVector velocity, MVector position) {
+	public ModelObject(World world, MVector velocity, MVector position, double radius) {
 		super();
 		this.velocity = velocity;
 		this.position = position;
 		this.world = world;
+		this.radius = radius;
 		world.addObject(this);
 	}
 
@@ -59,7 +60,7 @@ public abstract class ModelObject {
 	public void updatePosition(float dt) {
 		position = position.add(velocity.multiply(dt));
 		doBounce();
-		System.out.println("updatePosition("+dt+") on " + toString());
+//		System.out.println("updatePosition("+dt+") on " + toString());
 	}
 
 	private void doBounce(){

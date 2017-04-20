@@ -20,9 +20,11 @@ public class GameGlider extends GameObject {
 
 		MVector velocity = new MVector(random.nextDouble(),random.nextDouble()).multiply(MAXSPEED);
 		MVector position = new MVector(random.nextDouble() * WIDTH,random.nextDouble() * HEIGHT);
-		setModelObject(new ModelGlider(world, velocity, position) );
+		setModelObject(new ModelGlider(world, velocity, position, this.getRadius()/SCALE) );
 		modelObject.setMaxSpeed(MAXSPEED);
     	this.color = Color.BLUE;
+    	setFill(Color.BLUE);
+
 
 		System.out.println("Created new " + this.toString());
 	}

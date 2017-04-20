@@ -12,7 +12,7 @@ import javafx.scene.shape.Circle;
 import model.ModelObject;
 import model.World;
 
-public abstract class GameObject extends Circle{
+public abstract class GameObject extends Image{
     protected Random random = new Random();
     protected ModelObject modelObject = null;
     protected World world = null;
@@ -23,7 +23,7 @@ public abstract class GameObject extends Circle{
     	this.world = world;
     	this.color = Color.GRAY;
         setRadius(SCALE * 0.1);
-        setFill(Color.rgb(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
+        setFill(Color.GRAY);
     }
 
 	public World getWorld() {

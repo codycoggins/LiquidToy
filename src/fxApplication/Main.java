@@ -40,7 +40,8 @@ public class Main extends Application {
 
 	        Scene scene = new Scene(root, WIDTH * SCALE, HEIGHT * SCALE);
 			activeGame = new Game();
-			activeGame.load(world, root, 3, 10);
+			activeGame.load(world, root, 1, 6);
+			activeGame.setHandlers(scene);
 
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 

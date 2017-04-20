@@ -2,8 +2,8 @@ package model;
 
 public class ModelGlider extends ModelObject {
 
-	public ModelGlider(World world, MVector velocity, MVector position) {
-		super(world, velocity, position);
+	public ModelGlider(World world, MVector velocity, MVector position, double radius) {
+		super(world, velocity, position, radius);
 		System.out.println("Created new " + this.toString());
 	}
 

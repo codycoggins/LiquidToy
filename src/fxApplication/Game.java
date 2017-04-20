@@ -2,6 +2,9 @@ package fxApplication;
 
 import model.ModelObject;
 import model.World;
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
 import static fxApplication.Main.HEIGHT;
@@ -9,6 +12,8 @@ import static fxApplication.Main.SCALE;
 import static fxApplication.Main.WIDTH;
 
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 
@@ -64,4 +69,24 @@ public class Game {
 				+ "]";
 	}
 
+	public void setHandlers(Scene scene){
+		List<String> input = new ArrayList<String>();
+
+		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent e) {
+				String code = e.getCode().toString();
+
+				// only add once... prevent duplicates
+				if (!input.contains(code))
+					input.add(code);
+			}
+		});
+
+		scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent e) {
+				String code = e.getCode().toString();
+				input.remove(code);
+			}
+		});
+	}
 }
