@@ -10,7 +10,7 @@ public class ModelGlider extends ModelObject {
 	}
 
 	@Override
-	public void collisionWith(ModelObject o){
+	public synchronized void collisionWith(ModelObject o){
 		super.collisionWith(o);
 		// getting hit pushes the glider
 		this.velocity = o.velocity;

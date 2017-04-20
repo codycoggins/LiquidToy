@@ -1,11 +1,16 @@
 package model;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import fxApplication.GameObject;
 
 public abstract class ModelObject {
 	protected MVector position; //(meters)
 	protected MVector velocity; //(meters/second)
+	protected List<MVector> waypoints = new LinkedList<MVector>();
 	protected double maxSpeed = 0;
+	private static final double AVOID_THRESHOLD = 1;
 	protected double radius = 0.1;
 	protected String name = "ModelObject Instance";
 	protected World world = null;
@@ -24,7 +29,7 @@ public abstract class ModelObject {
 		return maxSpeed;
 	}
 
-	public void setMaxSpeed(double maxSpeed) {
+	public synchronized void setMaxSpeed(double maxSpeed) {
 		this.maxSpeed = maxSpeed;
 	}
 
@@ -32,7 +37,7 @@ public abstract class ModelObject {
 		return name;
 	}
 
-	public void setName(String name) {
+	public synchronized void setName(String name) {
 		this.name = name;
 	}
 
@@ -40,7 +45,7 @@ public abstract class ModelObject {
 		return world;
 	}
 
-	public void setWorld(World world) {
+	public synchronized void setWorld(World world) {
 		this.world = world;
 	}
 
@@ -48,25 +53,50 @@ public abstract class ModelObject {
 		return velocity;
 	}
 
-	public void setVelocity(MVector velocity) {
+	public synchronized void setVelocity(MVector velocity) {
+		// reduce velocity to maximum speed if needed.
 		if (velocity.length()> maxSpeed){
-			System.out.println (this.name + " has a maximum speed of " + this.maxSpeed);
+//			System.out.println (this.name + " has a maximum speed of " + this.maxSpeed);
 			velocity = velocity.unitVector().multiply(maxSpeed);
 		}
 		this.velocity = velocity;
 	}
 
-	public void setPosition(MVector position) {
+	public synchronized void setPosition(MVector position) {
 		this.position = position;
 	}
 
-	public void updatePosition(float dt) {
+	public synchronized void updatePosition(float dt) {
+
 		position = position.add(velocity.multiply(dt));
 		doBounce();
+		updateVelocity(dt);
 //		System.out.println("updatePosition("+dt+") on " + toString());
 	}
 
-	private void doBounce(){
+	private synchronized MVector updateVelocity(float dt){
+		// Put highest priority rules at end.
+		// TODO: implement a Strategy design pattern
+		// TODO: limit acceleration for smoother steering.
+		if (hasWaypoints()){
+			// steer object towards waypoints
+			setVelocity (waypoints.get(0).delta(position) );
+//			System.out.println(getName()+  "waypoint new velocity=" + velocity);
+		}
+		// Avoid
+		ModelObject nearObj = world.nearest(this);
+		if (nearObj != null){
+			if (position.delta(nearObj.getPosition()).length() < AVOID_THRESHOLD) {
+				System.out.print(getName() + " is avoiding " + nearObj.getName());
+				MVector escapeVector = position.delta(nearObj.getPosition());
+				setVelocity(escapeVector.unitVector().multiply(maxSpeed));
+			}
+		}
+		doBounce();
+		return velocity;
+	}
+
+	private synchronized void doBounce(){
 		if (position.getX()<0 && velocity.getX()<0) {
 			velocity = new MVector(- velocity.getX(), velocity.getY());
 		}
@@ -81,6 +111,39 @@ public abstract class ModelObject {
 		}
 	}
 
+	public synchronized void addWaypoint(MVector v){
+		waypoints.add(v);
+	}
+
+	public synchronized void clearWaypoints(){
+		waypoints.clear();
+	}
+
+	/**
+	 * Clear any existing waypoints and set new one.
+	 *
+	 * @param v New Destination
+	 */
+	public synchronized void setWaypoint(MVector w){
+		System.out.print(this.getName() + ": new waypoint (model) " + w);
+		clearWaypoints();
+		addWaypoint(w);
+	}
+
+	public boolean hasWaypoints(){
+		if (waypoints.size()> 0 ) return true;
+		return false;
+	}
+
+	public MVector popWaypoint(){
+		return waypoints.remove(0);
+	}
+
+	public boolean isWaypointAchieved(){
+		if (!hasWaypoints()) return false;
+		if (waypoints.get(0).delta(position).length() < radius) return true;
+		return false;
+	}
 	public MVector getPosition() {
 		return position;
 	}
@@ -89,7 +152,7 @@ public abstract class ModelObject {
 		return radius;
 	}
 
-	public void setRadius(double radius) {
+	public synchronized void setRadius(double radius) {
 		this.radius = radius;
 	}
 
@@ -97,11 +160,11 @@ public abstract class ModelObject {
 		return gameObject;
 	}
 
-	public void setGameObject(GameObject gameObject) {
+	public synchronized void setGameObject(GameObject gameObject) {
 		this.gameObject = gameObject;
 	}
 
-	public void collisionWith(ModelObject o){
+	public synchronized void collisionWith(ModelObject o){
 	}
 
 	@Override

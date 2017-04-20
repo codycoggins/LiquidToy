@@ -86,4 +86,22 @@ public class World {
 		}
 		return near;
 	}
+
+	public ModelObject nearest(ModelObject modelObject) {
+		MVector x = modelObject.position;
+		double minDistance = (new MVector(sizeX,sizeY).length()); //max possible distance in world
+		ModelObject near = null;
+		for (ModelObject o: objects){
+			if (o==modelObject) continue;
+			double d = x.delta(o.position).length();
+			if (d < minDistance){
+				minDistance = d;
+				near = o;
+			}
+		}
+		if (near!=null){
+			System.out.println("You are "+ minDistance + " from " + near.getName());
+		}
+		return near;
+	}
 }

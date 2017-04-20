@@ -47,30 +47,7 @@ public class GameGlider extends GameObject {
 	@Override
 	public void setHandlers(){
 		super.setHandlers();
-		// see dragdrop sample code https://docs.oracle.com/javafx/2/drag_drop/jfxpub-drag_drop.htm
-		iView.setOnDragDetected(new EventHandler<MouseEvent>() {
-		    public void handle(MouseEvent event) {
-		        /* drag was detected, start a drag-and-drop gesture*/
-            	System.out.println("START DRAG AND DROP");
-		        /* allow any transfer mode */
-		        game.db = source.iView.startDragAndDrop(TransferMode.ANY);
-		        source.select();
-		        ClipboardContent content = new ClipboardContent();
-		        content.putString(source.getName());
-		        /* Put a string on a dragboard */
-		        game.db.setContent(content);
-//		        event.consume();
-		    }
-		});
-		iView.setOnDragDone(new EventHandler<DragEvent>() {
-		    public void handle(DragEvent event) {
-		        /* the drag and drop gesture ended */
-		        /* if the data was successfully moved, clear it */
-		    	System.out.println("GLIDER DRAG DONE");
-		    	source.unSelect();
-//		        event.consume();
-		    }
-		});
+
 	}
 
 //	@Override

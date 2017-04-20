@@ -1,5 +1,6 @@
 package fxApplication;
 
+import model.MVector;
 import model.ModelObject;
 import model.World;
 import javafx.event.EventHandler;
@@ -141,6 +142,11 @@ public class Game {
 	            System.out.println("DROP COORDINATES: "+ event.getSceneX()+","+event.getSceneY());
 		        /* let the source know whether the string was successfully
 		         * transferred and used */
+	            if (selectedObject==null){
+	            	System.out.println("WARNING: RECEIVED DROP BUT NO SELECTED OBJECT");
+	            } else {
+	            	selectedObject.setWaypoint(new MVector(event.getSceneX(), event.getSceneY()));
+	            }
 		        event.setDropCompleted(success);
 		        scene.setCursor(Cursor.DEFAULT);
 //		        event.consume();
