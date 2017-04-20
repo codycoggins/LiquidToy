@@ -81,9 +81,9 @@ public class World {
 				near = o;
 			}
 		}
-		if (near!=null){
-			System.out.println("You are "+ minDistance + " from " + near.getName());
-		}
+//		if (near!=null){
+//			System.out.println("You are "+ minDistance + " from " + near.getName());
+//		}
 		return near;
 	}
 
@@ -98,9 +98,6 @@ public class World {
 				minDistance = d;
 				near = o;
 			}
-		}
-		if (near!=null){
-			System.out.println("You are "+ minDistance + " from " + near.getName());
 		}
 		return near;
 	}

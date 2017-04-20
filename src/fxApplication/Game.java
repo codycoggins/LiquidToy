@@ -20,6 +20,8 @@ import static fxApplication.Main.WIDTH;
 import java.util.List;
 
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.LineTo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,6 +35,7 @@ public class Game {
 	List<GameObject> objects = new LinkedList<GameObject>();
 	GameObject selectedObject = null;
 	Dragboard db;
+	Line dragLine = new Line();
 
     void load(World world, Pane pane, int numGliders, int numShips){
     	this.numGliders = numGliders;
@@ -47,6 +50,9 @@ public class Game {
     		GameObject o = addObject(new GameShip(world,pane,this));
     		o.setName("Ship"+i);
     	}
+    	dragLine.setFill(Color.RED);
+    	dragLine.setVisible(false);
+    	pane.getChildren().add(dragLine);
     	System.out.println("Game Loaded: "+ this.toString());
     	System.out.println(world.toString());
     	System.out.println("pane: "+ pane.getChildren());
@@ -113,9 +119,12 @@ public class Game {
 		            event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
 
 		            scene.setCursor(Cursor.CROSSHAIR);
-
-//		            scene.setFill(Color.LIGHTBLUE);
-		        }
+	            	MVector startPos = selectedObject.getPosition();
+		            putLineTruePosition(dragLine,startPos.getX(),startPos.getY(),event.getSceneX(),event.getSceneY() );
+	            	dragLine.setFill(Color.RED);
+	            	dragLine.setVisible(true);
+	            	System.out.println("dragLine ("+ dragLine.getStartX()+","+ dragLine.getStartY()+ ","+dragLine.getEndX()+","+ dragLine.getEndY() );
+	            }
 
 //		        event.consume();
 		    }
@@ -137,7 +146,6 @@ public class Game {
 		        /* if there is a string data on dragboard, read it and use it */
 		        db = event.getDragboard();
 		        boolean success = false;
-
 	            System.out.println("SCENE RECEIVE DROP FROM " + event.getGestureSource());
 	            System.out.println("DROP COORDINATES: "+ event.getSceneX()+","+event.getSceneY());
 		        /* let the source know whether the string was successfully
@@ -145,13 +153,40 @@ public class Game {
 	            if (selectedObject==null){
 	            	System.out.println("WARNING: RECEIVED DROP BUT NO SELECTED OBJECT");
 	            } else {
+	            	MVector startPos = selectedObject.getPosition();
+	            	putLineTruePosition(dragLine,startPos.getX(),startPos.getY(),event.getSceneX(),event.getSceneY() );
+	            	dragLine.setFill(Color.GRAY);
+	            	dragLine.setVisible(true);
 	            	selectedObject.setWaypoint(new MVector(event.getSceneX(), event.getSceneY()));
+	            	success=true;
 	            }
 		        event.setDropCompleted(success);
 		        scene.setCursor(Cursor.DEFAULT);
 //		        event.consume();
 		     }
 		});
+	}
+
+	/**
+	 * JavaFX object position is counterintuitive for lines.
+	 * This helper method simplifies it.
+	 * @param line  Line to move
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 */
+	protected void putLineTruePosition(Line line, double x1, double y1, double x2, double y2) {
+		MVector span = new MVector(x2-x1, y2-y1);
+		double originX = x1 + span.getX()/2;
+		double originY = y1 + span.getY()/2;
+    	line.setTranslateX(originX);
+    	line.setTranslateY(originY);
+    	line.setStartX(0);
+    	line.setStartY(0);
+    	line.setEndX(span.getX());
+    	line.setEndY(span.getY());
+
 	}
 
 	public GameObject getSelectedObject() {

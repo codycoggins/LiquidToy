@@ -98,6 +98,14 @@ public abstract class GameObject {
 		this.radius = radius;
 	}
 
+	public MVector getPosition (){
+		return (modelObject.getPosition().multiply(SCALE));
+	}
+
+	public MVector getVelocity (){
+		return (modelObject.getVelocity().multiply(SCALE));
+	}
+
 	public ImageView getiView() {
 		return iView;
 	}

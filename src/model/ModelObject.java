@@ -10,7 +10,7 @@ public abstract class ModelObject {
 	protected MVector velocity; //(meters/second)
 	protected List<MVector> waypoints = new LinkedList<MVector>();
 	protected double maxSpeed = 0;
-	private static final double AVOID_THRESHOLD = 1;
+	protected static final double AVOID_THRESHOLD = 1;
 	protected double radius = 0.1;
 	protected String name = "ModelObject Instance";
 	protected World world = null;
@@ -74,7 +74,7 @@ public abstract class ModelObject {
 //		System.out.println("updatePosition("+dt+") on " + toString());
 	}
 
-	private synchronized MVector updateVelocity(float dt){
+	protected synchronized MVector updateVelocity(float dt){
 		// Put highest priority rules at end.
 		// TODO: implement a Strategy design pattern
 		// TODO: limit acceleration for smoother steering.
@@ -82,15 +82,6 @@ public abstract class ModelObject {
 			// steer object towards waypoints
 			setVelocity (waypoints.get(0).delta(position) );
 //			System.out.println(getName()+  "waypoint new velocity=" + velocity);
-		}
-		// Avoid
-		ModelObject nearObj = world.nearest(this);
-		if (nearObj != null){
-			if (position.delta(nearObj.getPosition()).length() < AVOID_THRESHOLD) {
-				System.out.print(getName() + " is avoiding " + nearObj.getName());
-				MVector escapeVector = position.delta(nearObj.getPosition());
-				setVelocity(escapeVector.unitVector().multiply(maxSpeed));
-			}
 		}
 		doBounce();
 		return velocity;
