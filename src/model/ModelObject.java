@@ -68,19 +68,15 @@ public abstract class ModelObject {
 
 	private void doBounce(){
 		if (position.getX()<0 && velocity.getX()<0) {
-			System.out.println("Bounce X 0" + toString());
 			velocity = new MVector(- velocity.getX(), velocity.getY());
 		}
 		if (position.getY()<0 && velocity.getY()<0) {
-			System.out.println("Bounce Y 0" + toString());
 			velocity = new MVector(velocity.getX(), - velocity.getY());
 		}
 		if (position.getX()> world.getSizeX() && velocity.getX()>0) {
-			System.out.println("Bounce X Max" + toString());
 			velocity = new MVector(- velocity.getX(), velocity.getY());
 		}
 		if (position.getY()> world.getSizeY() && velocity.getY()>0) {
-			System.out.println("Bounce Y Max" + toString());
 			velocity = new MVector(velocity.getX(), -velocity.getY());
 		}
 	}

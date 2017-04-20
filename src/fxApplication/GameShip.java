@@ -14,11 +14,11 @@ import model.World;
 public class GameShip extends GameObject {
 	static final double MAXSPEED = 1d;
 
-	public GameShip(World world, Pane pane) {
-		super(world, pane);
+	public GameShip(World world, Pane pane, Game game) {
+		super(world, pane, game);
 		image = new Image("res/boat_48.png");
         iView.setImage(image);
-        iView.setFitWidth(48);
+//        iView.setFitWidth(48);
 
 		MVector velocity = new MVector(random.nextDouble(),random.nextDouble()).multiply(MAXSPEED);
 		MVector position = new MVector(random.nextDouble() * WIDTH,random.nextDouble() * HEIGHT);
@@ -28,7 +28,7 @@ public class GameShip extends GameObject {
 		pane.getChildren().add(iView);
 
 		System.out.println("Created new " + this.toString());
-
+		setHandlers();
 	}
 
 }
