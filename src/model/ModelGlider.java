@@ -13,6 +13,7 @@ public class ModelGlider extends ModelObject {
 	public synchronized void collisionWith(ModelObject o){
 		super.collisionWith(o);
 		// getting hit pushes the glider
+
 		this.velocity = o.velocity;
 
 	}

@@ -42,6 +42,9 @@ public class GameGlider extends GameObject {
 	public void collisionWith(GameObject o){
 		if (o.getClass() == GameShip.class ) {
 			System.out.println(this.getName() + " is in trouble, it was hit by " + o.getName());
+			// set Glider on new random course influenced by ship speed.
+			MVector modifier = new MVector(random.nextDouble(),random.nextDouble()).unitVector().multiply(MAXSPEED);
+			 modelObject.setVelocity(o.getVelocity().add(modifier));
 		}
 	}
 

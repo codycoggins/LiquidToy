@@ -51,7 +51,7 @@ public class Game {
     		GameObject o = addObject(new GameShip(world,root,this));
     		o.setName("Ship"+i);
     	}
-    	dragLine.setFill(Color.RED);
+    	dragLine.setStroke(Color.RED);
     	dragLine.setVisible(false);
     	root.getChildren().add(dragLine);
     	System.out.println("Game Loaded: "+ this.toString());
@@ -122,7 +122,7 @@ public class Game {
 		            scene.setCursor(Cursor.CROSSHAIR);
 	            	MVector startPos = selectedObject.getPosition();
 		            putLineTruePosition(dragLine,startPos.getX(),startPos.getY(),event.getSceneX(),event.getSceneY() );
-	            	dragLine.setFill(Color.RED);
+	            	dragLine.setStroke(Color.RED);
 	            	dragLine.setVisible(true);
 //	            	System.out.println("dragLine ("+ dragLine.getStartX()+","+ dragLine.getStartY()+ ","+dragLine.getEndX()+","+ dragLine.getEndY() );
 	            }
@@ -156,7 +156,7 @@ public class Game {
 	            } else {
 	            	MVector startPos = selectedObject.getPosition();
 	            	putLineTruePosition(dragLine,startPos.getX(),startPos.getY(),event.getSceneX(),event.getSceneY() );
-	            	dragLine.setFill(Color.GRAY);
+	            	dragLine.setStroke(Color.GRAY);
 	            	dragLine.setVisible(true);
 	            	selectedObject.setWaypoint(new MVector(event.getSceneX(), event.getSceneY()));
 	            	success=true;
@@ -185,7 +185,6 @@ public class Game {
     	line.setStartY(0);
     	line.setEndX(span.getX());
     	line.setEndY(span.getY());
-
 	}
 
 	public GameObject getSelectedObject() {
